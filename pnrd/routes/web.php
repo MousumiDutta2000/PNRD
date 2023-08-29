@@ -16,3 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Routes that only admins can access
+    Route::get('/admin/dashboard', 'AdminController@dashboard');
+    // ... other admin routes
+});
+
+// Normal authenticated user routes
+Route::middleware(['auth'])->group(function () {
+    // Routes for authenticated users
+});
